@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unlimited Gmail API - Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Hind+Siliguri:wght@400;700&display=swap');
+        
+        body { 
+            background: #000; 
+            color: #fff; 
+            font-family: 'Hind Siliguri', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        .money-rain {
+            position: fixed;
+            top: -50px;
+            font-size: 24px;
+            color: #ffd700;
+            user-select: none;
+            z-index: -1;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .cyber-card {
+            background: rgba(15, 15, 15, 0.95);
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .gold-text { color: #ffd700; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 10px #ffd700; }
+        
+        .premium-btn {
+            background: linear-gradient(90deg, #ffd700, #ffae00);
+            color: #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .premium-btn:active { transform: scale(0.95); }
+        .hidden { display: none; }
+
+        input {
+            background: #050505 !important;
+            border: 1px solid #ffd700 !important;
+            color: #ffd700 !important;
+            text-align: center;
+        }
+
+        /* পেমেন্ট আইকন স্টাইল */
+        .payment-img {
+            width: 100px;
+            height: 50px;
+            object-fit: contain;
+            margin: 0 auto 15px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+        }
+
+        .payment-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+    </style>
+</head>
+<body onclick="initMusic()">
+
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="rain-container"></div>
+
+    <div class="max-w-6xl mx-auto px-4 py-10 relative z-10">
+        <header class="text-center mb-20">
+            <h1 class="text-5xl md:text-7xl font-black gold-text mb-4 italic">UNLIMITED GMAIL API</h1>
+            <p class="text-yellow-500 tracking-[8px] text-xs font-bold uppercase">Premium Access Portal</p>
+        </header>
+
+        <div id="pricing-section" class="grid md:grid-cols-3 gap-10">
+            <div class="cyber-card p-10 rounded-xl text-center">
+                <h3 class="text-2xl font-bold mb-4 uppercase gold-text">৭ দিন মেম্বারশিপ</h3>
+                <div class="text-5xl font-black text-white mb-6">১,০০০ ৳</div>
+                <button onclick="playTap(); openOrder('১,০০০ ৳ (৭ দিন)')" class="premium-btn w-full py-5 rounded-lg">অর্ডার শুরু করুন</button>
+            </div>
+
+            <div class="cyber-card p-10 rounded-xl text-center scale-105 border-4">
+                <h3 class="text-2xl font-bold mb-4 uppercase gold-text">৩৫ দিন মেম্বারশিপ</h3>
+                <div class="text-5xl font-black text-white mb-6">৩,০০০ ৳</div>
+                <button onclick="playTap(); openOrder('৩,০০০ ৳ (৩৫ দিন)')" class="premium-btn w-full py-5 rounded-lg">অর্ডার শুরু করুন</button>
+            </div>
+
+            <div class="cyber-card p-10 rounded-xl text-center">
+                <h3 class="text-2xl font-bold mb-4 uppercase gold-text">লাইফ টাইম এক্সেস</h3>
+                <div class="text-5xl font-black text-white mb-6">৭,২০০ ৳</div>
+                <button onclick="playTap(); openOrder('৭,২০০ ৳ (লাইফ টাইম)')" class="premium-btn w-full py-5 rounded-lg">অর্ডার শুরু করুন</button>
+            </div>
+        </div>
+
+        <div id="order-form" class="max-w-md mx-auto mt-20 cyber-card p-10 rounded-xl hidden">
+            <h2 class="text-2xl font-bold gold-text mb-8 text-center italic underline uppercase">Customer Details</h2>
+            <div class="space-y-5">
+                <input type="text" id="u-name" placeholder="আপনার নাম" class="w-full p-4 rounded-lg">
+                <input type="email" id="u-email" placeholder="আপনার জিমেইল" class="w-full p-4 rounded-lg">
+                <input type="tel" id="u-phone" placeholder="ফোন নম্বর" class="w-full p-4 rounded-lg">
+                <button onclick="playTap(); validateStep1()" class="premium-btn w-full py-5 rounded-lg text-lg">পেমেন্ট ধাপে যান</button>
+            </div>
+        </div>
+
+        <div id="payment-section" class="max-w-6xl mx-auto mt-20 hidden">
+            <h2 class="text-4xl font-bold gold-text text-center mb-12 italic uppercase">Secure Payment</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="cyber-card p-6 text-center payment-card">
+                    <img src="https://freepnglogo.com/images/all_img/1701523533nagad-logo-png.png" alt="Nagad" class="payment-img">
+                    <p class="text-white text-xs mb-2 font-bold">[ পার্সোনাল - সেন্ড মানি ]</p>
+                    <p class="text-xl font-bold mb-6 text-white tracking-widest">01798349960</p>
+                    <input type="text" id="nagad-trx" placeholder="Transaction ID" class="w-full p-3 rounded-lg uppercase text-sm">
+                    <button onclick="playTap(); submitFinal('Nagad')" class="w-full py-3 mt-4 bg-red-600 font-black uppercase text-white rounded-lg">সাবমিট</button>
+                </div>
+
+                <div class="cyber-card p-6 text-center payment-card">
+                    <img src="https://freepnglogo.com/images/all_img/1701523447bkash-logo-png.png" alt="Bkash" class="payment-img">
+                    <p class="text-white text-xs mb-2 font-bold">[ পার্সোনাল - সেন্ড মানি ]</p>
+                    <p class="text-xl font-bold mb-6 text-white tracking-widest">01774442607</p>
+                    <input type="text" id="bkash-trx" placeholder="TrxID দিন" class="w-full p-3 rounded-lg uppercase text-sm">
+                    <button onclick="playTap(); submitFinal('Bkash')" class="w-full py-3 mt-4 bg-pink-600 font-black uppercase text-white rounded-lg">সাবমিট</button>
+                </div>
+
+                <div class="cyber-card p-6 text-center payment-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Binance_Logo.png" alt="Binance" class="payment-img">
+                    <p class="text-white text-xs mb-2 font-bold">[ Binance Pay ID ]</p>
+                    <p class="text-xl font-bold mb-6 text-white tracking-widest">944421082</p>
+                    <input type="text" id="binance-trx" placeholder="Order ID" class="w-full p-3 rounded-lg uppercase text-sm">
+                    <button onclick="playTap(); submitFinal('Binance')" class="w-full py-3 mt-4 bg-yellow-600 font-black uppercase text-black rounded-lg">সাবমিট</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="success-msg" class="max-w-md mx-auto mt-24 cyber-card p-12 text-center hidden">
+            <div class="text-7xl mb-6">💎</div>
+            <h2 class="text-3xl font-bold gold-text mb-4 uppercase">Pending Approval</h2>
+            <p class="text-gray-400 font-bold">আপনার তথ্য জমা দেওয়া হয়েছে। ৩০ মিনিটের মধ্যে সার্ভিস চালু হবে।</p>
+            <button onclick="location.reload()" class="mt-8 text-yellow-500 underline font-bold">ব্যাক টু হোম</button>
+        </div>
+    </div>
+
+    <script>
+        let musicStarted = false;
+        function initMusic() {
+            if (!musicStarted) {
+                const music = document.getElementById('bg-music');
+                music.volume = 0.2;
+                music.play().catch(e => {});
+                musicStarted = true;
+            }
+        }
+
+        function playTap() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.frequency.value = 900;
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+            osc.start(); osc.stop(ctx.currentTime + 0.1);
+        }
+
+        function createRain() {
+            const container = document.getElementById('rain-container');
+            const items = ['৳', '💎', '💰'];
+            setInterval(() => {
+                const div = document.createElement('div');
+                div.className = 'money-rain';
+                div.innerText = items[Math.floor(Math.random() * items.length)];
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(div);
+                setTimeout(() => div.remove(), 5000);
+            }, 400);
+        }
+        createRain();
+
+        let orderData = {};
+
+        function openOrder(pkg) {
+            orderData.pkg = pkg;
+            document.getElementById('pricing-section').classList.add('hidden');
+            document.getElementById('order-form').classList.remove('hidden');
+        }
+
+        function validateStep1() {
+            const name = document.getElementById('u-name').value;
+            const email = document.getElementById('u-email').value;
+            const phone = document.getElementById('u-phone').value;
+            if (name.length < 2 || !email.includes('@') || phone.length < 11) {
+                alert("সবগুলো তথ্য সঠিকভাবে পূরণ করুন।");
+                return;
+            }
+            orderData.name = name; orderData.email = email; orderData.phone = phone;
+            document.getElementById('order-form').classList.add('hidden');
+            document.getElementById('payment-section').classList.remove('hidden');
+        }
+
+        function submitFinal(method) {
+            let inputId = (method === 'Nagad') ? 'nagad-trx' : (method === 'Bkash' ? 'bkash-trx' : 'binance-trx');
+            const trx = document.getElementById(inputId).value.trim();
+
+            if (trx.length < 5) {
+                alert("সঠিক Transaction ID দিন।");
+                return;
+            }
+
+            const msg = `👑 *New Order*%0A━━━━━━%0A👤 নাম: ${orderData.name}%0A📦 প্যাকেজ: ${orderData.pkg}%0A📧 ইমেইল: ${orderData.email}%0A📞 ফোন: ${orderData.phone}%0A💳 মেথড: ${method}%0A🆔 Trx ID: ${trx}`;
+            
+            window.open(`https://wa.me/8801850681875?text=${msg}`, '_blank');
+            
+            document.getElementById('payment-section').classList.add('hidden');
+            document.getElementById('success-msg').classList.remove('hidden');
+        }
+    </script>
+</body>
+  </html>
